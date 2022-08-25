@@ -11,10 +11,8 @@ function addWeekdays(endDate) {
     return days;
 }
 
-const todayNow = moment();
-const todayMidnight = moment().endOf('day');
-let timeToMidNightSeconds = todayMidnight.diff(todayNow, 'seconds');
-
+let todayNow = moment().utc();
+const todayMidnight = moment().endOf('day').utc();
 
 const endDate = moment("20221003");
 
@@ -27,20 +25,19 @@ const isWeekend = (day) => {
 }
 
 if (!isWeekend(todayNow)) {
-    const formattedHour = moment(timeToMidNightSeconds * 1000).format('HH');
-    const formattedMinutes = moment(timeToMidNightSeconds * 1000).format('mm');
-    const formattedSeconds = moment(timeToMidNightSeconds * 1000).format('ss');
+    const formattedHour = todayMidnight.diff(todayNow, 'hours')
+    const formattedMinutes = todayMidnight.diff(todayNow, 'minutes') % 60;
+    const formattedSeconds = todayMidnight.diff(todayNow, 'seconds') % 60;
 
     document.querySelector('#seconds-left').textContent = `${formattedHour} hrs ${formattedMinutes} min ${formattedSeconds} sec`;
-    timeToMidNightSeconds--;
+    todayNow = moment().utc();
 
     setInterval(() => {
-        const formattedHour = moment(timeToMidNightSeconds * 1000).format('HH');
-        const formattedMinutes = moment(timeToMidNightSeconds * 1000).format('mm');
-        const formattedSeconds = moment(timeToMidNightSeconds * 1000).format('ss');
-
+        const formattedHour = todayMidnight.diff(todayNow, 'hours')
+        const formattedMinutes = todayMidnight.diff(todayNow, 'minutes') % 60;
+        const formattedSeconds = todayMidnight.diff(todayNow, 'seconds') % 60;
 
         document.querySelector('#seconds-left').textContent = `${formattedHour} hrs ${formattedMinutes} min ${formattedSeconds} sec`;
-        timeToMidNightSeconds--;
+        todayNow = moment().utc();
     }, 1000);
 }
