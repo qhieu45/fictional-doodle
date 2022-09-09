@@ -14,7 +14,7 @@ function addWeekdays(endDate) {
 let todayNow = moment().utc();
 const todayMidnight = moment().endOf('day').utc();
 
-const endDate = moment("20221003");
+const endDate = moment("20220916");
 
 const days = addWeekdays(endDate);
 
